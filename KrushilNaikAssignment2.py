@@ -26,7 +26,7 @@ while PLAY:
         print("This game is rated 25+")
         break
 
-    randomAge = random.randint(0, age)
+    randomAge = random.randint(0, age - 1)
 
     MESSAGE = f"Wow, you're {age - randomAge} years older than someone who's {randomAge}!\n"
 
