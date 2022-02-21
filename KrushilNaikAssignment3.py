@@ -13,78 +13,85 @@ def printEach(things: list):
     print(*things, sep="\n")
 
 
-database = [
-    {
-        "name": "Ka",
-        "yearIntroduced": 1996,
-        "currentModel": 2014,
-        "generation": "3rd",
-        "information": "Developed by Ford Brazil as a super mini car "
-    },
-    {
-        "name": "Fiesta",
-        "yearIntroduced": 1976,
-        "currentModel": 2017,
-        "generation": "7th",
-        "information": "Ford's long running subcompact line based on global B-car Platform"
-    },
-    {
-        "name": "Focus",
-        "yearIntroduced": 1998,
-        "currentModel": 2018,
-        "generation": "3rd",
-        "information": "Ford's Compact car based on global C-car platform"
-    },
-    {
-        "name": "Mondeo",
-        "yearIntroduced": 1992,
-        "currentModel": 2012,
-        "generation": "2nd",
-        "information": 'Mid sized passenger sedan with "One-Ford" design based on CD4 platform'
-    },
-    {
-        "name": "Fusion",
-        "yearIntroduced": 2005,
-        "currentModel": 2014,
-        "generation": "5th",
-        "information": "Similar to Mondero"
-    },
-    {
-        "name": "Taurus",
-        "yearIntroduced": 1986,
-        "currentModel": 2009,
-        "generation": "6th",
-        "information": "Full sized car based on D3 platform"
-    },
-    {
-        "name": "Fiesta ST",
-        "yearIntroduced": 2013,
-        "currentModel": 2013,
-        "generation": "1st",
-        "information": "Fiesta's high performance factory tune"
-    },
-    {
-        "name": "Focus RS",
-        "yearIntroduced": 2015,
-        "currentModel": 2015,
-        "generation": "1st",
-        "information": "Special high performance Focus developed by SVT"
-    },
-    {
-        "name": "Mustang",
-        "yearIntroduced": 1964,
-        "currentModel": 2014,
-        "generation": "6th",
-        "information": "Ford's long running pony/muscle car"
-    },
-    {
-        "name": "GT",
-        "yearIntroduced": 2004,
-        "currentModel": 2016,
-        "generation": "2nd",
-        "information": "Ford's limited production super car inspired by the legendary race car GT40"
-    }
-]
+ka = {
+    "name": "Ka",
+    "yearIntroduced": 1996,
+    "currentModel": 2014,
+    "generation": "3rd",
+    "information": "Developed by Ford Brazil as a super mini car "
+}
+
+fiesta = {
+    "name": "Fiesta",
+    "yearIntroduced": 1976,
+    "currentModel": 2017,
+    "generation": "7th",
+    "information": "Ford's long running subcompact line based on global B-car Platform"
+}
+
+focus = {
+    "name": "Focus",
+    "yearIntroduced": 1998,
+    "currentModel": 2018,
+    "generation": "3rd",
+    "information": "Ford's Compact car based on global C-car platform"
+}
+
+mondeo = {
+    "name": "Mondeo",
+    "yearIntroduced": 1992,
+    "currentModel": 2012,
+    "generation": "2nd",
+    "information": 'Mid sized passenger sedan with "One-Ford" design based on CD4 platform'
+}
+
+fusion = {
+    "name": "Fusion",
+    "yearIntroduced": 2005,
+    "currentModel": 2014,
+    "generation": "5th",
+    "information": "Similar to Mondero"
+}
+
+taurus = {
+    "name": "Taurus",
+    "yearIntroduced": 1986,
+    "currentModel": 2009,
+    "generation": "6th",
+    "information": "Full sized car based on D3 platform"
+}
+
+fiesta_st = {
+    "name": "Fiesta ST",
+    "yearIntroduced": 2013,
+    "currentModel": 2013,
+    "generation": "1st",
+    "information": "Fiesta's high performance factory tune"
+}
+
+focus_rs = {
+    "name": "Focus RS",
+    "yearIntroduced": 2015,
+    "currentModel": 2015,
+    "generation": "1st",
+    "information": "Special high performance Focus developed by SVT"
+}
+
+mustang = {
+    "name": "Mustang",
+    "yearIntroduced": 1964,
+    "currentModel": 2014,
+    "generation": "6th",
+    "information": "Ford's long running pony/muscle car"
+}
+
+gt = {
+    "name": "GT",
+    "yearIntroduced": 2004,
+    "currentModel": 2016,
+    "generation": "2nd",
+    "information": "Ford's limited production super car inspired by the legendary race car GT40"
+}
 
 
 def toDictionary(_list: list):
@@ -99,7 +106,16 @@ def getNamesAndYears(_dict: dict):
     return {_val["name"]: _val["yearIntroduced"] for _val in _dict.values()}
 
 
-dictionary = toDictionary(database)
+dictionary = toDictionary([
+    ka,
+    gt,
+    fiesta, fiesta_st,
+    focus, focus_rs,
+    mondeo,
+    fusion,
+    taurus,
+    mustang,
+])
 
 namesAndYears = list(getNamesAndYears(dictionary).items())
 namesAndYears.sort(key=lambda x: x[-1])
