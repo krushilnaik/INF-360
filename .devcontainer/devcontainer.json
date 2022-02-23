@@ -36,8 +36,7 @@
 	"extensions": [
 		"ms-python.python",
 		"ms-python.vscode-pylance",
-		"formulahendry.code-runner",
-		"njpwerner.autodocstring"
+		"formulahendry.code-runner"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
