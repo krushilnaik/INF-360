@@ -2,19 +2,10 @@
 # Krushil Naik
 # Assignment 3
 
-# (5/5 points) Create a dictionary for each vehicle that contains the fields/keys and values listed above.
-# (5/5 points) Write a function that will take a list of these dictionaries and return a new dictionary with the 'name' value as the key, and the dictionary as the value.
-# (5/5 points) Write a function that will go through the newly created dictionary and return a list of all the car's names, sorted alphabetically.
-# (5/5 points) Write a function that will go through the newly created dictionary return a dictionary of all the cars names and year introduced.
-# (5/5 points) Use a print statement to show the results of the function from step 3, each on their own line.
-# (5/5 points) Use a print statement to show the results of the function from step 4 to display in the format: year : name. Sort by year introduced.
 
-# just a helper function
-def printEach(things: list):
-    print(*things, sep="\n")
-
-
-car1 = {
+# (5/5 points) Create a dictionary for each vehicle
+# that contains the fields/keys and values listed above.
+car01 = {
     "Name": "Ka",
     "Year Introduced": 1996,
     "Production of the Current Model": 2014,
@@ -22,7 +13,7 @@ car1 = {
     "Vehicle Information": "Developed by Ford Brazil as a super mini car"
 }
 
-car2 = {
+car02 = {
     "Name": "Fiesta",
     "Year Introduced": 1976,
     "Production of the Current Model": 2017,
@@ -30,7 +21,7 @@ car2 = {
     "Vehicle Information": "Ford's long running subcompact line based on global B-car Platform"
 }
 
-car3 = {
+car03 = {
     "Name": "Focus",
     "Year Introduced": 1998,
     "Production of the Current Model": 2018,
@@ -38,7 +29,7 @@ car3 = {
     "Vehicle Information": "Ford's Compact car based on global C-car platform"
 }
 
-car4 = {
+car04 = {
     "Name": "Mondeo",
     "Year Introduced": 1992,
     "Production of the Current Model": 2012,
@@ -46,7 +37,7 @@ car4 = {
     "Vehicle Information": 'Mid sized passenger sedan with "One-Ford" design based on CD4 platform'
 }
 
-car5 = {
+car05 = {
     "Name": "Fusion",
     "Year Introduced": 2005,
     "Production of the Current Model": 2014,
@@ -54,7 +45,7 @@ car5 = {
     "Vehicle Information": "Similar to Mondero"
 }
 
-car6 = {
+car06 = {
     "Name": "Taurus",
     "Year Introduced": 1986,
     "Production of the Current Model": 2009,
@@ -62,7 +53,7 @@ car6 = {
     "Vehicle Information": "Full sized car based on D3 platform"
 }
 
-car7 = {
+car07 = {
     "Name": "Fiesta ST",
     "Year Introduced": 2013,
     "Production of the Current Model": 2013,
@@ -70,7 +61,7 @@ car7 = {
     "Vehicle Information": "Fiesta's high performance factory tune"
 }
 
-car8 = {
+car08 = {
     "Name": "Focus RS",
     "Year Introduced": 2015,
     "Production of the Current Model": 2015,
@@ -78,7 +69,7 @@ car8 = {
     "Vehicle Information": "Special high performance Focus developed by SVT"
 }
 
-car9 = {
+car09 = {
     "Name": "Mustang",
     "Year Introduced": 1964,
     "Production of the Current Model": 2014,
@@ -95,28 +86,45 @@ car10 = {
 }
 
 
+# (5/5 points) Write a function that will take a list of these dictionaries
+# and return a new dictionary with the 'name' value as the key, and the dictionary as the value.
 def toDictionary(_list: list):
-    return {_dict["Name"]: _dict for _dict in _list}
+    return {car["Name"]: car for car in _list}
 
 
+# (5/5 points) Write a function that will go through the newly created dictionary
+# and return a list of all the car's names, sorted alphabetically.
 def getNames(_dict: dict):
     return sorted(_dict.keys())
 
 
+# (5/5 points) Write a function that will go through the newly created dictionary
+# return a dictionary of all the cars names and year introduced.
 def getNamesAndYears(_dict: dict):
-    return {_val["Name"]: _val["Year Introduced"] for _val in _dict.values()}
+    return {car["Name"]: car["Year Introduced"] for car in _dict.values()}
 
 
-dictionary = toDictionary([
-    car1, car2, car3, car4, car5,
-    car6, car7, car8, car9, car10,
+# just a helper function
+def printEach(things: list):
+    print(*things, sep="\n")
+
+
+carDatabase = toDictionary([
+    car01, car02, car03, car04, car05,
+    car06, car07, car08, car09, car10,
 ])
 
-namesAndYears = list(getNamesAndYears(dictionary).items())
-namesAndYears.sort(key=lambda x: x[-1])
+# (5/5 points) Use a print statement to show the results of the function from step 3,
+# each on their own line.
+printEach(getNames(carDatabase))
 
-printEach(getNames(dictionary))
 print()
 print("=====================================")
 print()
+
+namesAndYears = list(getNamesAndYears(carDatabase).items())
+namesAndYears.sort(key=lambda x: x[-1])
+
+# (5/5 points) Use a print statement to show the results of the function from step 4
+# to display in the format: year : name. Sort by year introduced.
 printEach([f"{year} : {name}" for name, year in namesAndYears])
