@@ -3,9 +3,15 @@
 # Assignment 3
 
 
-# (1/1 point) - Initial comments*
+import re
+
+
 # (2/2 points) - Read the file story.txt and store the lines as a variable called story.You must use relative paths, assume the story.txt file is in the same folder as your script.
+story = open("./story.txt", encoding="utf-8").readlines()
+
 # (5/5 points) - Write a regular expression that will find all occurances of the phrase,  "Sherlock Holmes".
+sherlock = re.compile(r"Sherlock Holmes")
+
 # (5/5 points) - Using the substitue method, replace all occurances of "Sherlock Holmes" with your name, storing the count of these occurances as a variable called foundCount.
 # (2/2 points) - Write a regular expression that will find all occurances of the phrase, "the".
 # (3/3 points) - Create a variable called theCount, that stores the total number of occurances of the phrase "the".
