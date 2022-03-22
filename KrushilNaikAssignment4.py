@@ -8,22 +8,19 @@ import re
 
 # (2/2 points) - Read the file story.txt and store the lines as a variable called story.
 # You must use relative paths, assume the story.txt file is in the same folder as your script.
-# old_story = open("./story.txt", encoding="utf-8")
 story = open("./story.txt", encoding="utf-8").readlines()
 
 # (5/5 points) - Write a regular expression that will
 # find all occurances of the phrase,  "Sherlock Holmes".
-sherlock = re.compile(r"(?<=\s)Sherlock Holmes(?=[\s,.?!'])")
+sherlock = re.compile(r"\bSherlock Holmes\b")
 
 # (5/5 points) - Using the substitue method,
 # replace all occurances of "Sherlock Holmes" with your name,
 # storing the count of these occurances as a variable called foundCount.
-krushilEdition = [sherlock.sub("Krushil", string) for string in story]
-
 foundCount = 0
 
 for i, line in enumerate(story):
-    if not line:
+    if not line.strip():
         continue
 
     story[i] = sherlock.sub("Krushil", line)
@@ -32,7 +29,7 @@ for i, line in enumerate(story):
 
 # (2/2 points) - Write a regular expression that will
 # find all occurances of the phrase, "the".
-the = re.compile(r"(?<=\s)the(?=[\s])")
+the = re.compile(r"\bthe\b")
 
 # (3/3 points) - Create a variable called theCount,
 # that stores the total number of occurances of the phrase "the".
@@ -53,4 +50,6 @@ print(f"Number of 'the': {theCount}")
 
 # (1/1 points) - Save the story out to a new file called new_story.txt.
 with open("new_story.txt", "w", encoding="utf-8") as new_story:
-    new_story.write("\n".join(krushilEdition))
+    new_story.write("\n".join(story))
+
+print("New story saved to 'new_story.txt'")
