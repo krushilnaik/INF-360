@@ -8,7 +8,7 @@ import re
 
 # (2/2 points) - Read the file story.txt and store the lines as a variable called story.
 # You must use relative paths, assume the story.txt file is in the same folder as your script.
-old_story = open("./story.txt", encoding="utf-8")
+# old_story = open("./story.txt", encoding="utf-8")
 story = open("./story.txt", encoding="utf-8").readlines()
 
 # (5/5 points) - Write a regular expression that will
@@ -52,5 +52,5 @@ print(f"Total number replaced: {foundCount}")
 print(f"Number of 'the': {theCount}")
 
 # (1/1 points) - Save the story out to a new file called new_story.txt.
-with open("new_story.txt", "w") as new_story:
+with open("new_story.txt", "w", encoding="utf-8") as new_story:
     new_story.write("\n".join(krushilEdition))
