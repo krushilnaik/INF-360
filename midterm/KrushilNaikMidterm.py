@@ -47,6 +47,7 @@ class Server(BaseHTTPRequestHandler):
             STATUS_CODE = 404
             page = open(self.base + "404.html", encoding="utf-8").read()
 
+        # send the fetched page
         self.send_response(STATUS_CODE)
         self.end_headers()
         self.wfile.write(bytes(page, "utf-8"))
