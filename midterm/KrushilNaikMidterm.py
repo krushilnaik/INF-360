@@ -11,12 +11,6 @@ PORT = 3000
 class Server(BaseHTTPRequestHandler):
     """Custom HTTP Server"""
 
-    def __init__(self, request, client_address, server):
-        self.base = "/midterm/"
-        self.path = "/"
-
-        super().__init__(request, client_address, server)
-
     def do_GET(self):
         """GET requests"""
 
@@ -26,31 +20,41 @@ class Server(BaseHTTPRequestHandler):
         validPath = re.compile(r"^/[a-zA-Z_-]*(.html|.css){0,1}$")
 
         if not validPath.match(self.path):
+            print(f"You don't have access to {self.path}.")
             STATUS_CODE = 302
-            self.path = "404.html"
+            self.path = "./404.html"
+        else:
+            self.path = "." + self.path
 
         # if the request URL is extensionless (e.g. /dashboard)
         # try resolving /dashboard.html instead
-        if self.path != "/" and "." not in self.path:
+        if self.path != "./" and "." not in self.path[1:]:
             self.path += ".html"
 
         # GET /
-        if self.path == "/":
-            self.path = self.base + "index.html"
-        else:
-            self.path = self.base + self.path
+        if self.path == "./":
+            self.path += "index.html"
 
         # if the requested URL doesn't exist, redirect to the 404 page
         try:
-            page = open(self.path[1:], encoding="utf-8").read()
+            page = open(self.path, encoding="utf-8").read()
         except FileNotFoundError:
             STATUS_CODE = 404
-            page = open(self.base + "404.html", encoding="utf-8").read()
+            page = open("./404.html", encoding="utf-8").read()
 
         # send the fetched page
         self.send_response(STATUS_CODE)
         self.end_headers()
         self.wfile.write(bytes(page, "utf-8"))
+
+
+def fetchAlphabet():
+    with open("./alphabet.txt", encoding="utf-8") as alphabetFile:
+        for i, line in enumerate(alphabetFile, 1):
+            print(i)
+
+            if i > 7:
+                return
 
 
 if __name__ == "__main__":
@@ -64,3 +68,5 @@ if __name__ == "__main__":
         pass
 
     httpd.server_close()
+
+    print(fetchAlphabet())
