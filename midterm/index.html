@@ -10,5 +10,34 @@
 
 	<body>
 		<h1>Home</h1>
+		<div id="output">placeholder</div>
+		<form action="/api" method="get">
+			<input
+				type="text"
+				name="value"
+				id="input"
+				placeholder="Enter text to render: "
+			/>
+			<button id="submit" type="submit">Render</button>
+		</form>
+
+		<script>
+			const form = document.querySelector("form");
+
+			form.addEventListener("submit", (event) => {
+				event.preventDefault();
+
+				const value = new FormData(form).get("value");
+
+				fetch(`/api?value=${value}`)
+					.then((res) => res.json())
+					.then((data) => {
+						document.querySelector("#output").innerHTML =
+							data.message.join("<br/>");
+					});
+
+				return false;
+			});
+		</script>
 	</body>
 </html>

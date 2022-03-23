@@ -3,7 +3,8 @@
 # Midterm
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import re
+import re, json
+import urllib.parse
 
 PORT = 3000
 ALPHABET = {}
@@ -32,11 +33,31 @@ class Server(BaseHTTPRequestHandler):
 
         STATUS_CODE = 200
 
-        # prevent access to anything that isn't an HTML or CSS file
+        # API requests
+        if self.path.startswith("/api"):
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+
+            # get the value from the API call and
+            # decode it (e.g. %20 turns into a space)
+            string = self.path.split("?", 1)[-1][6:]
+            string = urllib.parse.unquote(string)
+
+            characters = [ALPHABET[_c] for _c in string]
+
+            lines = ["".join(line) for line in zip(*characters)]
+
+            self.wfile.write(bytes(json.dumps({"message": lines}), encoding="utf-8"))
+
+            return
+
         validPath = re.compile(r"^/[a-zA-Z_-]*(.html|.css){0,1}$")
 
+        # prevent access to anything that isn't an HTML or CSS file
+        # this doesn't let the favicon.ico through
+        # but that's okay because there isn't one
         if not validPath.match(self.path):
-            print(f"You don't have access to {self.path}.")
             STATUS_CODE = 302
             self.path = "./404.html"
         else:
@@ -65,17 +86,15 @@ class Server(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    # server = HTTPServer(("localhost", PORT), Server)
-
-    # print(f"Server up and running on http://localhost:{PORT}")
-
-    # try:
-    #     server.serve_forever()
-    # except KeyboardInterrupt:
-    #     pass
-
-    # server.server_close()
-
     fetchAlphabet()
 
-    print(*ALPHABET[""], sep="\n")
+    server = HTTPServer(("localhost", PORT), Server)
+
+    print(f"Server up and running on http://localhost:{PORT}")
+
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        pass
+
+    server.server_close()
