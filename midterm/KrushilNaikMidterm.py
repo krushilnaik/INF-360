@@ -5,8 +5,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import re
 
-# import os
-
 PORT = 3000
 
 
@@ -24,12 +22,15 @@ class Server(BaseHTTPRequestHandler):
 
         STATUS_CODE = 200
 
+        # prevent access to anything that isn't an HTML or CSS file
         validPath = re.compile(r"^/[a-zA-Z_-]*(.html|.css){0,1}$")
 
         if not validPath.match(self.path):
             STATUS_CODE = 302
             self.path = "404.html"
 
+        # if the request URL is extensionless (e.g. /dashboard)
+        # try resolving /dashboard.html instead
         if self.path != "/" and "." not in self.path:
             self.path += ".html"
 
@@ -39,26 +40,22 @@ class Server(BaseHTTPRequestHandler):
         else:
             self.path = self.base + self.path
 
+        # if the requested URL doesn't exist, redirect to the 404 page
         try:
-            doc = open(self.path[1:], encoding="utf-8").read()
+            page = open(self.path[1:], encoding="utf-8").read()
         except FileNotFoundError:
-            doc = open(self.base + "404.html", encoding="utf-8").read()
+            STATUS_CODE = 404
+            page = open(self.base + "404.html", encoding="utf-8").read()
 
-        # split_path = os.path.splitext(self.path)
-        # request_extension = split_path[1]
-
-        # if request_extension != ".py":
         self.send_response(STATUS_CODE)
         self.end_headers()
-        self.wfile.write(bytes(doc, "utf-8"))
-        # else:
-        #     self.send_error(404, f"{self.path} not found")
+        self.wfile.write(bytes(page, "utf-8"))
 
 
 if __name__ == "__main__":
     httpd = HTTPServer(("localhost", PORT), Server)
 
-    print(f"Server up and running on port {PORT}")
+    print(f"Server up and running on http://localhost:{PORT}")
 
     try:
         httpd.serve_forever()
