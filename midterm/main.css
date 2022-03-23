@@ -56,3 +56,11 @@ form {
 	text-align: center;
 	font-size: 16px;
 }
+
+.bg {
+	color: burlywood;
+}
+
+.fg {
+	color: crimson;
+}

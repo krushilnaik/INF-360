@@ -32,8 +32,19 @@
 				fetch(`/api?value=${value}`)
 					.then((res) => res.json())
 					.then((data) => {
-						document.querySelector("#output").innerHTML =
-							data.message.join("<br/>");
+						document.querySelector("#output").innerHTML = data.message
+							.map((line) =>
+								line
+									.split("")
+									.map(
+										(char) =>
+											`<span class="${
+												char === "#" ? "fg" : "bg"
+											}">${char}</span>`
+									)
+									.join("")
+							)
+							.join("<br/>");
 					});
 
 				return false;
