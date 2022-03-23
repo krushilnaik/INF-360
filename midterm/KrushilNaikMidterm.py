@@ -6,6 +6,22 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import re
 
 PORT = 3000
+ALPHABET = {}
+
+
+def fetchAlphabet():
+    global ALPHABET
+
+    with open("./alphabet.txt", encoding="utf-8") as alphabetFile:
+        CURRENT_CHAR = ""
+
+        for i, line in enumerate(alphabetFile, 1):
+            if line[0].isdigit():
+                CURRENT_CHAR = line.split(" ", 1)[-1].strip()[1:-1]
+                ALPHABET[CURRENT_CHAR] = []
+                continue
+
+            ALPHABET[CURRENT_CHAR].append(line.strip())
 
 
 class Server(BaseHTTPRequestHandler):
@@ -48,25 +64,18 @@ class Server(BaseHTTPRequestHandler):
         self.wfile.write(bytes(page, "utf-8"))
 
 
-def fetchAlphabet():
-    with open("./alphabet.txt", encoding="utf-8") as alphabetFile:
-        for i, line in enumerate(alphabetFile, 1):
-            print(i)
-
-            if i > 7:
-                return
-
-
 if __name__ == "__main__":
-    httpd = HTTPServer(("localhost", PORT), Server)
+    # server = HTTPServer(("localhost", PORT), Server)
 
-    print(f"Server up and running on http://localhost:{PORT}")
+    # print(f"Server up and running on http://localhost:{PORT}")
 
-    try:
-        httpd.serve_forever()
-    except KeyboardInterrupt:
-        pass
+    # try:
+    #     server.serve_forever()
+    # except KeyboardInterrupt:
+    #     pass
 
-    httpd.server_close()
+    # server.server_close()
 
-    print(fetchAlphabet())
+    fetchAlphabet()
+
+    print(*ALPHABET[""], sep="\n")
