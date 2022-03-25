@@ -21,6 +21,7 @@ h1 {
 }
 
 input {
+	position: relative;
 	font-size: 24px;
 	color: white;
 	text-align: center;
@@ -28,8 +29,18 @@ input {
 	line-height: 2em;
 	background-color: transparent;
 	border: none;
-	border-bottom: solid 1px white;
+	border-bottom: solid 1px whitesmoke;
 	outline: none;
+}
+
+input::after {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	content: "";
+	width: 100%;
+	height: 3px;
+	background-color: aqua;
 }
 
 form {
@@ -46,8 +57,16 @@ form {
 	padding: 10px 20px;
 	border-radius: 9999px;
 	outline: none;
-	border: none;
+	border: solid 2px transparent;
 	font-size: 20px;
+	transition-property: background-color color border;
+	transition-duration: 300ms;
+}
+
+#submit:hover {
+	background-color: tomato;
+	color: white;
+	border: solid 2px white;
 }
 
 #output {
@@ -58,9 +77,9 @@ form {
 }
 
 .bg {
-	color: burlywood;
+	color: #bdbaba;
 }
 
 .fg {
-	color: crimson;
+	color: tomato;
 }
