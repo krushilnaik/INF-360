@@ -28,7 +28,7 @@ def fetchAlphabet():
     with open("./alphabet.txt", encoding="utf-8") as alphabetFile:
         CURRENT_CHAR = ""
 
-        for i, line in enumerate(alphabetFile, 1):
+        for line in alphabetFile:
             if line[0].isdigit():
                 CURRENT_CHAR = line.split(" ", 1)[-1].strip()[1:-1]
                 ALPHABET[CURRENT_CHAR] = []
