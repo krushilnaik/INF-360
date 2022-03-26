@@ -16,6 +16,18 @@ import urllib.parse
 ALPHABET = {}
 
 
+def openFile(path: str):
+    """
+    We're only ever using UTF-8 files in this project,
+    so set it in here and just use this everywhere.
+
+    Args:
+        path (_type_): the file path to open
+
+    """
+    return open(path, encoding="utf-8")
+
+
 def fetchAlphabet():
     """
     Go through `alphabet.txt` (in this directory)
@@ -25,19 +37,19 @@ def fetchAlphabet():
 
     global ALPHABET
 
-    with open("./alphabet.txt", encoding="utf-8") as alphabetFile:
-        CURRENT_CHAR = ""
+    with openFile("./alphabet.txt") as alphabetFile:
+        letter = ""
 
         for line in alphabetFile:
             if line[0].isdigit():
-                CURRENT_CHAR = line.split(" ", 1)[-1].strip()[1:-1]
-                ALPHABET[CURRENT_CHAR] = []
+                letter = line.split(" ", 1)[-1].strip()[1:-1]
+                ALPHABET[letter] = []
                 continue
 
-            ALPHABET[CURRENT_CHAR].append(line.strip())
+            ALPHABET[letter].append(line.strip())
 
 
-class Server(BaseHTTPRequestHandler):
+class MyServer(BaseHTTPRequestHandler):
     """Custom HTTP Server"""
 
     def __init__(self, request, client_address, server):
@@ -124,30 +136,31 @@ class Server(BaseHTTPRequestHandler):
         # Try to open the requested file
         # if it doesn't exist, redirect to the 404 page
         try:
-            page = open(self.path, encoding="utf-8").read()
+            page = openFile(self.path)
         except FileNotFoundError:
             STATUS_CODE = 404
-            page = open("./404.html", encoding="utf-8").read()
+            page = openFile("./404.html")
 
         # send the fetched page
         self.send_response(STATUS_CODE)
         self.end_headers()
-        self.wfile.write(bytes(page, "utf-8"))
+        self.wfile.write(bytes(page.read(), "utf-8"))
+
+        page.close()
 
 
 if __name__ == "__main__":
     fetchAlphabet()
 
-    PORT = 3000
-    DOMAIN = ("localhost", PORT)
+    # `DOMAIN` isn't used but I'm keeping it there
+    # in case it's useful in the final project
+    HOST = (DOMAIN := "localhost", PORT := 3000)
 
-    server = HTTPServer(DOMAIN, Server)
+    server = HTTPServer(HOST, MyServer)
 
     print(f"Server up and running on http://localhost:{PORT}")
 
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        pass
-
-    server.server_close()
+        server.server_close()

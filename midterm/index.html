@@ -20,9 +20,18 @@
 			<button id="submit" type="submit">Render</button>
 		</form>
 
+		<span class="error"></span>
+
+		<footer>
+			<div>Krushil Naik</div>
+			<div style="font-size: 15px">INF 360 - Programming in Python</div>
+			<div style="font-size: 14px">Midterm Project</div>
+		</footer>
+
 		<script>
 			const form = document.querySelector("form");
 			const canvas = document.getElementById("output");
+			const error = document.querySelector(".error");
 
 			form.addEventListener("submit", (event) => {
 				event.preventDefault();
@@ -33,7 +42,9 @@
 					.then((res) => res.json())
 					.then((data) => {
 						if (data.unsupported) {
-							alert(`Unsupported character '${data.unsupported}'.`);
+							// alert(`Unsupported character '${data.unsupported}'.`);
+							error.innerHTML = `Unsupported character '${data.unsupported}'`;
+							error.animate();
 							return;
 						}
 

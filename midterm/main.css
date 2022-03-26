@@ -13,6 +13,14 @@ body {
 	background-color: #222;
 }
 
+footer {
+	position: absolute;
+	bottom: 1em;
+	width: 100%;
+	color: honeydew;
+	text-align: center;
+}
+
 h1 {
 	color: crimson;
 	text-align: center;
@@ -26,6 +34,7 @@ input {
 	color: white;
 	text-align: center;
 	width: 40vw;
+	min-width: 15em;
 	line-height: 2em;
 	background-color: transparent;
 	border: none;
@@ -82,4 +91,17 @@ form {
 
 .fg {
 	color: tomato;
+}
+
+.error {
+	color: tomato;
+	font-style: italic;
+	font-size: 18px;
+	margin: auto;
+}
+
+@media screen and (max-width: 768px) {
+	input {
+		font-size: 20px;
+	}
 }
