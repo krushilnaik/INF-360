@@ -4,7 +4,7 @@
 
 """
 This is a simple website using the current directory as a server.
-The frontend (at http://localhost:3000/ after execution) is pretty simple;
+The frontend (at http://localhost:3000/ while running) is pretty simple;
 Enter some text in the input and hit sumbit for an ASCII art representation.
 If your input has an unsupported character, it'll ask you to try something else.
 """
