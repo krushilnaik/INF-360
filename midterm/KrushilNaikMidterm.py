@@ -4,9 +4,9 @@
 
 """
 This is a simple website using the current directory as a server.
-The frontend (at http://localhost:3000/ while running) is pretty simple;
-Enter some text in the input and hit sumbit for an ASCII art representation.
-If your input has an unsupported character, it'll ask you to try something else.
+The frontend (http://localhost:3000) is pretty simple;
+Enter some text and hit sumbit for an ASCII art representation.
+If you typed an unsupported character, it'll alert you.
 """
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -53,7 +53,7 @@ class Server(BaseHTTPRequestHandler):
 
         # API requests
         # e.g. http://localhost:3000/api?value=hello%20world
-        if self.path.startswith("/api"):
+        if self.path.startswith("/api?value="):
 
             # let the browser know it's getting some JSON data back
             self.send_response(200)
