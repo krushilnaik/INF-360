@@ -1,6 +1,13 @@
 # INF360 - Programming in Python
 # Krushil Naik
-# Midterm
+# Midterm Project
+
+"""
+This is a simple website using the current directory as a server.
+The frontend (at http://localhost:3000/ after execution) is pretty simple;
+Enter some text in the input and hit sumbit for an ASCII art representation.
+If your input has an unsupported character, it'll ask you to try something else.
+"""
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import re, json
@@ -10,6 +17,12 @@ ALPHABET = {}
 
 
 def fetchAlphabet():
+    """
+    Go through alphabet.txt (in this directory)
+    and populate the dictionary up top
+    to be used as a database for the site
+    """
+
     global ALPHABET
 
     with open("./alphabet.txt", encoding="utf-8") as alphabetFile:
@@ -43,12 +56,16 @@ class Server(BaseHTTPRequestHandler):
             string = self.path.split("?", 1)[-1][6:]
             string = urllib.parse.unquote(string)
 
+            # Retrieve the ASCII art for each character
             characters = [ALPHABET[_c] for _c in string]
 
+            # Stitch the ASCII letters together into the rows to be displayed on the site
             lines = ["".join(line) for line in zip(*characters)]
 
+            # Send the data back to the site as a JSON object
             self.wfile.write(bytes(json.dumps({"message": lines}), encoding="utf-8"))
 
+            # No need to execute the rest of the code
             return
 
         validPath = re.compile(r"^/[a-zA-Z_-]*(.html|.css){0,1}$")
