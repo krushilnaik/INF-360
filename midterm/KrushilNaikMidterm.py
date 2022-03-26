@@ -41,8 +41,8 @@ class Server(BaseHTTPRequestHandler):
     """Custom HTTP Server"""
 
     def __init__(self, request, client_address, server):
-        # Wannabe middleware that doesn't let anything but HTML and CSS files through
-        self.validPath = re.compile(r"^/[a-zA-Z_-]*(.html|.css){0,1}$")
+        # Wannabe middleware that doesn't let anything but HTML and CSS through
+        self.validPaths = re.compile(r"^/[a-zA-Z_-]*(.html|.css){0,1}$")
 
         super().__init__(request, client_address, server)
 
@@ -65,14 +65,26 @@ class Server(BaseHTTPRequestHandler):
             string = self.path.split("?", 1)[-1][6:]
             string = urllib.parse.unquote(string)
 
+            c = string[0]
+
             # Retrieve the ASCII art for each character
-            characters = [ALPHABET[_c] for _c in string]
+            # If the character isn't supported, ask the user to try again
+            try:
+                characters = [ALPHABET[(c := _c)] for _c in string]
+            except KeyError:
+                self.wfile.write(
+                    bytes(
+                        json.dumps({"unsupported": c}),
+                        encoding="utf-8",
+                    )
+                )
+                return
 
             # Stitch the ASCII letters together into the rows to be displayed on the site
             lines = ["".join(line) for line in zip(*characters)]
 
             # Send the data back to the site as a JSON object
-            # Response format:
+            # Response format (for /api?value=hello%20world):
             #
             # {
             #     "message": [
@@ -86,21 +98,21 @@ class Server(BaseHTTPRequestHandler):
             #     ]
             # }
             #
-            self.wfile.write(bytes(json.dumps({"message": lines}), encoding="utf-8"))
+            self.wfile.write(bytes(json.dumps(lines), encoding="utf-8"))
 
             # No need to execute the rest of the code
             return
 
-        # prevent access to anything that isn't an HTML or CSS file
-        # this doesn't let the favicon.ico through
+        # prevent access to non-HTML/CSS files
+        # this doesn't let favicon.ico through
         # but that's okay because there isn't one
-        if not self.validPath.match(self.path):
+        if not self.validPaths.match(self.path):
             STATUS_CODE = 302
             self.path = "./404.html"
         else:
             self.path = "." + self.path
 
-        # if the request URL is extensionless (e.g. ./dashboard)
+        # if request URL is extensionless (e.g. ./dashboard)
         # try resolving /dashboard.html instead
         if self.path != "./" and "." not in self.path[1:]:
             self.path += ".html"
