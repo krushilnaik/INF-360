@@ -79,7 +79,7 @@ class Server(BaseHTTPRequestHandler):
         else:
             self.path = "." + self.path
 
-        # if the request URL is extensionless (e.g. /dashboard)
+        # if the request URL is extensionless (e.g. ./dashboard)
         # try resolving /dashboard.html instead
         if self.path != "./" and "." not in self.path[1:]:
             self.path += ".html"
