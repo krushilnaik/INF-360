@@ -6,7 +6,6 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import re, json
 import urllib.parse
 
-PORT = 3000
 ALPHABET = {}
 
 
@@ -88,7 +87,10 @@ class Server(BaseHTTPRequestHandler):
 if __name__ == "__main__":
     fetchAlphabet()
 
-    server = HTTPServer(("localhost", PORT), Server)
+    PORT = 3000
+    DOMAIN = ("localhost", PORT)
+
+    server = HTTPServer(DOMAIN, Server)
 
     print(f"Server up and running on http://localhost:{PORT}")
 
