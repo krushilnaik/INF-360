@@ -109,7 +109,8 @@ class Server(BaseHTTPRequestHandler):
         if self.path == "./":
             self.path += "index.html"
 
-        # if the requested URL doesn't exist, redirect to the 404 page
+        # Try to open the requested file
+        # if it doesn't exist, redirect to the 404 page
         try:
             page = open(self.path, encoding="utf-8").read()
         except FileNotFoundError:
