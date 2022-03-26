@@ -18,7 +18,7 @@ ALPHABET = {}
 
 def fetchAlphabet():
     """
-    Go through alphabet.txt (in this directory)
+    Go through `alphabet.txt` (in this directory)
     and populate the dictionary up top
     to be used as a database for the site
     """
@@ -40,13 +40,22 @@ def fetchAlphabet():
 class Server(BaseHTTPRequestHandler):
     """Custom HTTP Server"""
 
+    def __init__(self, request, client_address, server):
+        # Wannabe middleware that doesn't let anything but HTML and CSS files through
+        self.validPath = re.compile(r"^/[a-zA-Z_-]*(.html|.css){0,1}$")
+
+        super().__init__(request, client_address, server)
+
     def do_GET(self):
         """GET requests"""
 
         STATUS_CODE = 200
 
         # API requests
+        # e.g. http://localhost:3000/api?value=hello%20world
         if self.path.startswith("/api"):
+
+            # let the browser know it's getting some JSON data back
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
             self.end_headers()
@@ -63,17 +72,29 @@ class Server(BaseHTTPRequestHandler):
             lines = ["".join(line) for line in zip(*characters)]
 
             # Send the data back to the site as a JSON object
+            # Response format:
+            #
+            # {
+            #     "message": [
+            #         "#...........#.....#...................................#.........#.",
+            #         "#......###..#.....#......###........#...#..###...###..#.........#.",
+            #         "####..#...#.#.....#.....#...#.......#.#.#.#...#.#.....#......####.",
+            #         "#...#.####..#.....#.....#...#.......#.#.#.#...#.#.....#.....#...#.",
+            #         "#...#.#.....#.....#.....#...#.......#.#.#.#...#.#.....#.....#...#.",
+            #         "#...#..####..##....##....###.........#.#...###..#......##....####.",
+            #         ".................................................................."
+            #     ]
+            # }
+            #
             self.wfile.write(bytes(json.dumps({"message": lines}), encoding="utf-8"))
 
             # No need to execute the rest of the code
             return
 
-        validPath = re.compile(r"^/[a-zA-Z_-]*(.html|.css){0,1}$")
-
         # prevent access to anything that isn't an HTML or CSS file
         # this doesn't let the favicon.ico through
         # but that's okay because there isn't one
-        if not validPath.match(self.path):
+        if not self.validPath.match(self.path):
             STATUS_CODE = 302
             self.path = "./404.html"
         else:
