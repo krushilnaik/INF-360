@@ -7,6 +7,9 @@ This is a simple website using the current directory as a server.
 The frontend (http://localhost:3000) is pretty simple;
 Enter some text and hit sumbit for an ASCII art representation.
 If you typed an unsupported character, it'll alert you.
+
+I wrote as much of the functionality in this Python file as possible,
+but the DOM manipulation logic needed to be in JavaScript (found in index.html).
 """
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -22,7 +25,7 @@ def openFile(path: str):
     so set it in here and just use this everywhere.
 
     Args:
-        path (_type_): the file path to open
+        path (str): the file path to open
 
     """
     return open(path, encoding="utf-8")
@@ -42,7 +45,12 @@ def fetchAlphabet():
 
         for line in alphabetFile:
             if line[0].isdigit():
+                # gets the second half of the line, without the quotes
+                # e.g. 33 '!' -> !
                 letter = line.split(" ", 1)[-1].strip()[1:-1]
+
+                # Add the fetched character to the database
+                # mapped to list populated in future iterations
                 ALPHABET[letter] = []
                 continue
 
@@ -50,7 +58,15 @@ def fetchAlphabet():
 
 
 class MyServer(BaseHTTPRequestHandler):
-    """Custom HTTP Server"""
+    """
+    Custom HTTP Server
+
+    GET / -> index.html
+
+    GET /api?value=<value> -> build ASCII art for <value> and respond with JSON
+
+    GET /<anything-else> -> <anything-else>.html if it exists, else 404.html
+    """
 
     def __init__(self, request, client_address, server):
         # Wannabe middleware that doesn't let anything but HTML and CSS through
@@ -73,7 +89,7 @@ class MyServer(BaseHTTPRequestHandler):
             self.end_headers()
 
             # get the value from the API call and
-            # decode it (e.g. %20 turns into a space)
+            # decode it (e.g. `hello%20world` -> `hello world`)
             string = self.path.split("?", 1)[-1][6:]
             string = urllib.parse.unquote(string)
 
