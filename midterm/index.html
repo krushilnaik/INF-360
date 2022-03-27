@@ -44,7 +44,17 @@
 						if (data.unsupported) {
 							// alert(`Unsupported character '${data.unsupported}'.`);
 							error.innerHTML = `Unsupported character '${data.unsupported}'`;
-							error.animate();
+							error.animate(
+								[
+									{ transform: "translateX(15px)" },
+									{ transform: "translateX(-15px)" },
+									{ transform: "translateX(0)" },
+								],
+								{
+									duration: 170,
+									iterations: 3,
+								}
+							);
 							return;
 						}
 
