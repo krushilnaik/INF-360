@@ -86,7 +86,7 @@ form {
 }
 
 .bg {
-	color: #bdbaba;
+	color: dimgray;
 }
 
 .fg {
@@ -100,8 +100,20 @@ form {
 	margin: auto;
 }
 
+.tooltip {
+	font-size: 24px;
+}
+
 @media screen and (max-width: 768px) {
 	input {
+		font-size: 20px;
+	}
+
+	#output {
+		font-size: 10px;
+	}
+
+	.tooltip {
 		font-size: 20px;
 	}
 }

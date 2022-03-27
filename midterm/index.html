@@ -3,13 +3,17 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<title>Page Title</title>
+		<title>INF 360 | Midterm Project</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="main.css" />
 	</head>
 
 	<body>
-		<div id="output">placeholder</div>
+		<div id="output">
+			<div class="tooltip">
+				Type something and hit generate to see it as ASCII art
+			</div>
+		</div>
 		<form action="/api" method="get">
 			<input
 				type="text"
@@ -17,15 +21,14 @@
 				id="input"
 				placeholder="Enter text to render: "
 			/>
-			<button id="submit" type="submit">Render</button>
+			<button id="submit" type="submit">Generate</button>
 		</form>
 
 		<span class="error"></span>
 
 		<footer>
 			<div>Krushil Naik</div>
-			<div style="font-size: 15px">INF 360 - Programming in Python</div>
-			<div style="font-size: 14px">Midterm Project</div>
+			<div style="font-size: 15px">INF 360 | Midterm Project</div>
 		</footer>
 
 		<script>
