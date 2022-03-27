@@ -9,11 +9,21 @@
 	</head>
 
 	<body>
-		<div id="output">
-			<div class="tooltip">
-				Type something and hit generate to see it as ASCII art
+		<div class="wrapper">
+			<div id="output">
+				<div class="tooltip">
+					<span>Type something and hit generate to see it as ASCII art</span>
+					<span class="smaller">
+						(Try to use only common English letters/symbols)
+					</span>
+				</div>
 			</div>
 		</div>
+
+		<!--
+			A proper form setup isn't necessary right now,
+			but will be useful when paired with Django or Flask later.
+		-->
 		<form action="/api" method="get">
 			<input
 				type="text"
@@ -24,7 +34,7 @@
 			<button id="submit" type="submit">Generate</button>
 		</form>
 
-		<span class="error"></span>
+		<span class="error">&nbsp;</span>
 
 		<footer>
 			<div>Krushil Naik</div>
@@ -36,31 +46,41 @@
 			const canvas = document.getElementById("output");
 			const error = document.querySelector(".error");
 
+			function displayError(message) {
+				error.innerHTML = message;
+				error.animate(
+					[
+						{ transform: "translateX(15px)" },
+						{ transform: "translateX(-15px)" },
+						{ transform: "translateX(0)" },
+					],
+					{
+						duration: 170,
+						iterations: 3,
+					}
+				);
+			}
+
 			form.addEventListener("submit", (event) => {
 				event.preventDefault();
 
 				const value = new FormData(form).get("value");
 
-				fetch(`/api?value=${value}`)
+				if (!value) {
+					displayError("Please type something in first.");
+				}
+
+				fetch(`/api?value=${value.replace(/#/g, "%23")}`)
 					.then((res) => res.json())
 					.then((data) => {
 						if (data.unsupported) {
-							// alert(`Unsupported character '${data.unsupported}'.`);
-							error.innerHTML = `Unsupported character '${data.unsupported}'`;
-							error.animate(
-								[
-									{ transform: "translateX(15px)" },
-									{ transform: "translateX(-15px)" },
-									{ transform: "translateX(0)" },
-								],
-								{
-									duration: 170,
-									iterations: 3,
-								}
-							);
+							displayError(`Unsupported character '${data.unsupported}'`);
+
 							return;
 						}
 
+						// this could've been done on the backend (i.e. in Python)
+						// but choose here for future flexibility with the API response
 						canvas.innerHTML = data
 							.map((line) =>
 								line
