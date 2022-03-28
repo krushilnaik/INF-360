@@ -4,6 +4,7 @@
 
 
 from functools import reduce
+from pathlib import Path
 import re
 
 # (2/2 points) - Read the file story.txt and store the lines as a variable called story.
@@ -49,7 +50,6 @@ print(f"Total number replaced: {foundCount}")
 print(f"Number of 'the': {theCount}")
 
 # (1/1 points) - Save the story out to a new file called new_story.txt.
-with open("new_story.txt", "w", encoding="utf-8") as new_story:
-    new_story.write("\n".join(story))
+Path("new_story.txt").write_text("\n".join(story))
 
 print("New story saved to 'new_story.txt'")
