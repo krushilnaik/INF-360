@@ -30,7 +30,7 @@ for i, line in enumerate(story):
 
 # (2/2 points) - Write a regular expression that will
 # find all occurances of the phrase, "the".
-the = re.compile(r"\bthe\b")
+the = re.compile(r"\bthe\b", re.IGNORECASE)
 
 # (3/3 points) - Create a variable called theCount,
 # that stores the total number of occurances of the phrase "the".
