@@ -50,6 +50,8 @@ print(f"Total number replaced: {foundCount}")
 print(f"Number of 'the': {theCount}")
 
 # (1/1 points) - Save the story out to a new file called new_story.txt.
-Path("new_story.txt").write_text("\n".join(story))
+NEW_FILE = "new_story.txt"
 
-print("New story saved to 'new_story.txt'")
+Path(NEW_FILE).write_text("\n".join(story))
+
+print(f"New story saved to '{NEW_FILE}'")
