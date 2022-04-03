@@ -24,8 +24,8 @@ for i, line in enumerate(story):
     if not line.strip():
         continue
 
-    story[i] = sherlock.sub("Krushil", line)
     foundCount += len(sherlock.findall(line))
+    story[i] = sherlock.sub("Krushil", line)
 
 
 # (2/2 points) - Write a regular expression that will
